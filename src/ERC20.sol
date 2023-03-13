@@ -66,10 +66,11 @@ contract ERC20 {
         require(allowances[_from][_to] >= _value, "");
         // zero address의 경우 approve에서 이미 검증했기 때문에 스킵한다.
         
-        allowances[_from][_to] -= _value;
-        balances[_from] -= _value;
-        balances[_to] += _value;
-
+        unchecked{
+            allowances[_from][_to] -= _value;
+            balances[_from] -= _value;
+            balances[_to] += _value;
+        }
         emit Transfer(_from, _to, _value);
         return true;   
     }
